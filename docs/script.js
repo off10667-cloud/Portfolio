@@ -1,7 +1,26 @@
 document.addEventListener("DOMContentLoaded", () => {
     const themeToggle = document.getElementById("theme-toggle");
     const body = document.body;
-    const icon = themeToggle.querySelector("i");
+
+    // Mobile Menu Logic
+    const mobileBtn = document.querySelector(".mobile-menu-btn");
+    const navLinks = document.querySelector(".nav-links");
+    const navItems = document.querySelectorAll(".nav-links a");
+
+    if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener("click", () => {
+            mobileBtn.classList.toggle("active");
+            navLinks.classList.toggle("active");
+        });
+
+        // Close menu when clicking a link
+        navItems.forEach(item => {
+            item.addEventListener("click", () => {
+                mobileBtn.classList.remove("active");
+                navLinks.classList.remove("active");
+            });
+        });
+    }
 
     // Check for saved theme preference
     const savedTheme = localStorage.getItem("theme");
@@ -20,8 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     function updateIcon(isDark) {
-        // Simple text change if no icon library, or class toggle if using FontAwesome
-        // Assuming we might add FontAwesome or just use text/emoji for now
         if (isDark) {
             themeToggle.innerHTML = "☀️";
             themeToggle.setAttribute("aria-label", "Switch to light mode");
